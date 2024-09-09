@@ -1,0 +1,152 @@
+﻿@page
+@model eUcionica.Pages.Studenti.StudentModel
+
+<style>
+    body {
+        background-color: #f5f5f5; 
+        color: #000000; 
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5; 
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+        color: #1e90ff; 
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    select.form-control,
+    input.form-control,
+    textarea.form-control {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+
+    button.btn-primary {
+        background-color: #1e90ff; 
+        border-color: #1e90ff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        button.btn-primary:hover {
+            background-color: #187bcd; 
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+</style>
+
+<div class="container">
+    <h2>Testovi</h2>
+
+    <div class="container">
+        <form method="get">
+            <div class="form-group">
+                <label for="IzabraniPredmet">Izaberi predmet:</label>
+                <select asp-for="SelectedPredmetId" class="form-control">
+                    <option value="">Izaberi predmet</option>
+                    @if (Model.Predmeti != null && Model.Predmeti.Any())
+                    {
+                        @foreach (var predmet in Model.Predmeti)
+                        {
+                            <option value="@predmet.PredmetId">@predmet.NazivPredmeta</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">Nema dostupnih predmeta</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="IzabranaOblast">Izaberi oblast:</label>
+                <select asp-for="SelectedOblastId" class="form-control">
+                    <option value="">Izaberi oblast</option>
+                    @if (Model.Oblasti != null && Model.Oblasti.Any())
+                    {
+                        @foreach (var oblast in Model.Oblasti)
+                        {
+                            <option value="@oblast.OblastId">@oblast.NazivOblasti</option>
+                        }
+                    }
+                    else
+                    {
+                        <option value="">Nema dostupnih oblasti</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="IzabraniNivoTezine">Izaberi nivo težine:</label>
+                <select asp-for="SelectedNivoTezine" class="form-control">
+                    <option value="">Izaberi nivo težine</option>
+                    <option value="1">Lako</option>
+                    <option value="2">Uobičajeno</option>
+                    <option value="3">Teško</option>
+                    <option value="4">Izuzetno teško</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Generiši test</button>
+        </form>
+
+        @if (Model.GenerisaniZadaci != null && Model.GenerisaniZadaci.Any())
+        {
+            <h3>Generisani test</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sadržaj zadatka</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var zadatak in Model.GenerisaniZadaci)
+                    {
+                        <tr>
+                            <td>@zadatak.SadrzajZadatka</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
